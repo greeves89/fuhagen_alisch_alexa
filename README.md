@@ -1,41 +1,54 @@
 ﻿# Nutzerhandbuch Alexa_Skill Fernuni Hagen
-
  -------------------------------------------
 1. Einführung
 
-Das Skript index.js integriert verschiedene Dienste wie Google Gmail, Google Tasks, Google Calendar und OpenAI GPT-3 in einen Alexa Skill. Es ermöglicht die Verwaltung von E-Mails, Aufgaben und Terminen sowie die Interaktion mit GPT-3 über Alexa.
+    Der Alexa Skill integriert verschiedene Dienste wie Google Gmail, Google Tasks, Google Calendar und OpenAI GPT zu einer Sammlung von Funktionen. Er ermöglicht die Verwaltung von E-Mails, Aufgaben und Terminen sowie die Interaktion mit GPT-3 über Alexa.
+ 
+3. Erste Schritte
 
- 1.2. Vorbereitung
- Stellen Sie sicher, dass Node.js und npm installiert sind.
- Installieren Sie die benötigten Pakete: ask-sdk-core, googleapis, nodemailer, moment-timezone, openai und aws-sdk.
- 1.3. Konfiguration
- Setzen Sie den OpenAI API-Schlüssel und die AWS-Region.
- Konfigurieren Sie den OAuth2-Client für Google-Dienste.
- 1.4. Hauptfunktionen
- LaunchRequestHandler: Startet den Skill und überprüft die Verfügbarkeit von Tokens.
- SummarizeMailIntentHandler: Fasst E-Mails zusammen und interagiert mit GPT-3.
- SummarizeDayIntentHandler: Gibt eine Zusammenfassung des Tages aus, einschließlich Aufgaben, E-Mails und Terminen.
- AddTaskIntentHandler: Fügt eine Aufgabe zum Google Kalender hinzu.
- ListTasksIntentHandler: Listet Aufgaben aus Google Tasks auf.
- ReadTaskIntentHandler: Liest Details einer bestimmten Aufgabe vor.
- DeleteTaskIntentHandler: Löscht eine Aufgabe aus Google Tasks.
- handleConversationWithGPT: Ermöglicht eine Konversation mit GPT-3.
- 1.5. Interaktion mit E-Mails
- ReadEmailIntentHandler: Liest E-Mails vor.
- NextEmailIntentHandler: Wechselt zur nächsten E-Mail.
- DeleteEmailIntentHandler: Löscht eine E-Mail.
- 1.6. Zusätzliche Funktionen
- MarkMailAsReadedHandler: Markiert eine E-Mail als gelesen.
- remindMeIntentHandler: Erstellt eine Erinner
+    Vorbereitung
 
-2. Erste Schritte
+       Damit der Skill genutzt werden kann, müssen die folgenden Schritte ausgeführt werden:
+       - Erstellen Sie ein Google Developer Account -> https://console.cloud.google.com
+       - Erstellen Sie einen OPENAI API Account -> https://platform.openai.com/api-keys
+       - Erstellen Sie einen Alexa Developer Account -> https://developer.amazon.com/
+  
+    Konfiguration
+   
+       Setzen Sie den OpenAI API-Schlüssel und die AWS-Region.
+       Konfigurieren Sie den OAuth2-Client für Google-Dienste.
 
-3. Verwendung des Skills
-
-4. Entwicklung und Anpassung
+4. Verwendung des Skills
+    Hauptfunktionen des Skills
+   
+       Die folgenden Funktionalitäten wurden im Interaktionsmodell des Skills hinterlegt:
+   
+       - Mailverwaltung:
+         - Auflisten von Mails - "Liste meine Mails von heute auf."
+         - Schreiben einer Mail - "Schreibe eine Mail"
+         - interaktion mit einer Mail:
+           - Vorlesen
+           - Antworten
+           - Zusammenfassen
+           - als gelesen markieren
+           - löschen
+           - nächste Mail
+       - Terminverwaltung
+         - Auflisten von Terminen
+       - Aufgabenverwaltung
+         - Auflisten von Aufgaben
+         - Erstellen einer Aufgabe
+         - interaktion mit einer Aufgabe:
+           - Mehr Infos
+           - löschen
+           - nächste Aufgabe
+       - Diskussion mit OpenAI GPT
+         - Start eines Gesprächs mit ChatGPT
+       - weitere Funktionalitäten:
+         - Zusammenfassung des Tages
+         - Anleitung - "Hilfe"
 
 5. Fehlerbehebung
 
-6. Mitwirken
-
-7. Kontakt
+6. Kontakt
+  Bitte per Mail
