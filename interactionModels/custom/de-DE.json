@@ -1,0 +1,1016 @@
+{
+  "interactionModel": {
+    "dialog": {
+      "intents": [
+        {
+          "slots": [
+            {
+              "name": "receiver",
+              "elicitationRequired": true,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.771337774033.1640220812321",
+                "confirmation": "Confirm.Slot.440015274668.645012614447"
+              }
+            },
+            {
+              "name": "subject",
+              "elicitationRequired": true,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.771337774033.1493307429845"
+              }
+            },
+            {
+              "name": "content",
+              "elicitationRequired": true,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.771337774033.896757809049"
+              }
+            }
+          ],
+          "name": "interactionCreateMail",
+          "confirmationRequired": false,
+          "prompts": {}
+        },
+        {
+          "slots": [
+            {
+              "name": "date",
+              "elicitationRequired": true,
+              "type": "AMAZON.DATE",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1512776701441.739595359431"
+              }
+            },
+            {
+              "name": "startTime",
+              "elicitationRequired": true,
+              "type": "AMAZON.TIME",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1512776701441.1138875601367"
+              }
+            },
+            {
+              "name": "endTime",
+              "elicitationRequired": true,
+              "type": "AMAZON.TIME",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1512776701441.1530474893744"
+              }
+            },
+            {
+              "name": "receiver",
+              "elicitationRequired": true,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.972876911610.1067744603631",
+                "confirmation": "Confirm.Slot.968478742672.1681137355715"
+              }
+            },
+            {
+              "name": "content",
+              "elicitationRequired": true,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.972876911610.248265849716"
+              }
+            },
+            {
+              "name": "title",
+              "elicitationRequired": true,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.972876911610.672489504043"
+              }
+            }
+          ],
+          "name": "interactionCreateEvent",
+          "confirmationRequired": false,
+          "prompts": {}
+        },
+        {
+          "slots": [
+            {
+              "name": "amountMails",
+              "elicitationRequired": false,
+              "type": "AMAZON.AlphaNumeric",
+              "confirmationRequired": false,
+              "prompts": {}
+            },
+            {
+              "name": "dayStamp",
+              "elicitationRequired": false,
+              "type": "AMAZON.DATE",
+              "confirmationRequired": false,
+              "prompts": {}
+            }
+          ],
+          "name": "interactionListMails",
+          "confirmationRequired": false,
+          "prompts": {}
+        },
+        {
+          "slots": [
+            {
+              "name": "receiver",
+              "elicitationRequired": false,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": false,
+              "prompts": {}
+            },
+            {
+              "name": "subject",
+              "elicitationRequired": false,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": false,
+              "prompts": {}
+            },
+            {
+              "name": "messageText",
+              "elicitationRequired": true,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.4350560751.1377540996935",
+                "confirmation": "Confirm.Slot.4350560751.1377540996935"
+              }
+            }
+          ],
+          "name": "ReplyEmailIntent",
+          "confirmationRequired": false,
+          "prompts": {}
+        },
+        {
+          "slots": [
+            {
+              "name": "userMessage",
+              "elicitationRequired": false,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": false,
+              "prompts": {}
+            }
+          ],
+          "name": "interactionFlowGPT",
+          "confirmationRequired": false,
+          "prompts": {}
+        },
+        {
+          "slots": [
+            {
+              "name": "toneOfResponse",
+              "elicitationRequired": true,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.776589365825.1357274450054"
+              }
+            },
+            {
+              "name": "coreResponse",
+              "elicitationRequired": true,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.776589365825.935591711183"
+              }
+            }
+          ],
+          "name": "replyWithGPT",
+          "confirmationRequired": false,
+          "prompts": {}
+        },
+        {
+          "slots": [
+            {
+              "name": "title",
+              "elicitationRequired": true,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1503945080474.246635934198"
+              }
+            },
+            {
+              "name": "details",
+              "elicitationRequired": true,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1503945080474.509738442796"
+              }
+            },
+            {
+              "name": "deadline",
+              "elicitationRequired": true,
+              "type": "AMAZON.DATE",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1503945080474.485931046442"
+              }
+            }
+          ],
+          "name": "interactionCreateTask",
+          "confirmationRequired": false,
+          "prompts": {}
+        },
+        {
+          "slots": [
+            {
+              "name": "confirmation",
+              "elicitationRequired": true,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1580215121334.516194302988"
+              }
+            }
+          ],
+          "name": "deleteTaskIntent",
+          "confirmationRequired": false,
+          "prompts": {}
+        },
+        {
+          "slots": [
+            {
+              "name": "confirmation",
+              "elicitationRequired": true,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1690298256225.1577635355121"
+              }
+            }
+          ],
+          "name": "deleteMailIntent",
+          "confirmationRequired": false,
+          "prompts": {}
+        },
+        {
+          "slots": [
+            {
+              "name": "topic",
+              "elicitationRequired": true,
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1446793209886.980097897911"
+              }
+            },
+            {
+              "name": "time",
+              "elicitationRequired": true,
+              "type": "AMAZON.TIME",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1446793209886.1355052418848"
+              }
+            }
+          ],
+          "name": "remindMeIntent",
+          "confirmationRequired": false,
+          "prompts": {}
+        }
+      ],
+      "delegationStrategy": "ALWAYS"
+    },
+    "languageModel": {
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": [
+            "wie kannst du mir helfen",
+            "hilfe",
+            "Ich brauche deine Hilfe"
+          ]
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "slots": [
+            {
+              "name": "receiver",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "{receiver} "
+              ]
+            },
+            {
+              "name": "subject",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "{subject}"
+              ]
+            },
+            {
+              "name": "content",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "{content}"
+              ]
+            }
+          ],
+          "name": "interactionCreateMail",
+          "samples": [
+            "Schreibe an {receiver} eine Mail",
+            "Erstelle eine Mail",
+            "Schreibe eine Mail"
+          ]
+        },
+        {
+          "slots": [
+            {
+              "name": "date",
+              "type": "AMAZON.DATE",
+              "samples": [
+                "{date}",
+                "am {date}"
+              ]
+            },
+            {
+              "name": "startTime",
+              "type": "AMAZON.TIME",
+              "samples": [
+                "{startTime}",
+                "um {startTime} Uhr"
+              ]
+            },
+            {
+              "name": "endTime",
+              "type": "AMAZON.TIME",
+              "samples": [
+                "{endTime}"
+              ]
+            },
+            {
+              "name": "receiver",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "an {receiver}"
+              ]
+            },
+            {
+              "name": "content",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "{content}"
+              ]
+            },
+            {
+              "name": "title",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "{title}"
+              ]
+            }
+          ],
+          "name": "interactionCreateEvent",
+          "samples": [
+            "Bitte erstelle einen Termin",
+            "Sende {receiver} einen Termin",
+            "Erstellen einen Termin für den {date}",
+            "Erstelle einen Termin "
+          ]
+        },
+        {
+          "slots": [
+            {
+              "name": "dayStamp",
+              "type": "AMAZON.DATE"
+            }
+          ],
+          "name": "interactionListEvents",
+          "samples": [
+            "Was ist mein nächster Termin",
+            "Termine",
+            "Welche Termine habe ich {dayStamp}",
+            "Was für Termine habe ich {dayStamp}",
+            "Wie sieht mein Tag aus",
+            "Was steht heute an"
+          ]
+        },
+        {
+          "slots": [
+            {
+              "name": "amountMails",
+              "type": "AMAZON.AlphaNumeric"
+            },
+            {
+              "name": "dayStamp",
+              "type": "AMAZON.DATE"
+            }
+          ],
+          "name": "interactionListMails",
+          "samples": [
+            "Welche Mails habe ich {dayStamp} erhalten",
+            "lies meine mails von {dayStamp} vor",
+            "Liste mir die letzen {amountMails} Mails auf.",
+            "Liste mir die Mail von {dayStamp} auf.",
+            "Liste meine Mails auf.",
+            "Welche Mails habe ich erhalten",
+            "Lies mir meine Inbox vor.",
+            "Liste mir all meine Mails auf."
+          ]
+        },
+        {
+          "slots": [],
+          "name": "ReadEmailIntent",
+          "samples": [
+            "mail vorlesen",
+            "Lies die Nachricht vor",
+            "Lies die E-Mail vor",
+            "vorlesen"
+          ]
+        },
+        {
+          "slots": [
+            {
+              "name": "moodOfTheResponse",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "name": "interactionResponseWithGPT",
+          "samples": [
+            "mit ChatGPT anworten"
+          ]
+        },
+        {
+          "slots": [
+            {
+              "name": "receiver",
+              "type": "AMAZON.SearchQuery"
+            },
+            {
+              "name": "subject",
+              "type": "AMAZON.SearchQuery"
+            },
+            {
+              "name": "messageText",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "{messageText}"
+              ]
+            }
+          ],
+          "name": "ReplyEmailIntent",
+          "samples": [
+            "antworte auf diese mail",
+            "Antworten"
+          ]
+        },
+        {
+          "slots": [],
+          "name": "NextEmailIntent",
+          "samples": [
+            "weitere e mail",
+            "nächste e mail",
+            "weitere mail",
+            "nächste mail"
+          ]
+        },
+        {
+          "slots": [
+            {
+              "name": "userMessage",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "name": "interactionFlowGPT",
+          "samples": [
+            "lass uns über {userMessage} sprechen",
+            "g. p. t. {userMessage}",
+            "g p t {userMessage}",
+            "chat {userMessage}",
+            "bot {userMessage}",
+            "gpt {userMessage}",
+            "lass uns über {userMessage} reden"
+          ]
+        },
+        {
+          "slots": [
+            {
+              "name": "toneOfResponse",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "{toneOfResponse}"
+              ]
+            },
+            {
+              "name": "coreResponse",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "{coreResponse}"
+              ]
+            }
+          ],
+          "name": "replyWithGPT",
+          "samples": [
+            "smart reply",
+            "smartReply"
+          ]
+        },
+        {
+          "slots": [],
+          "name": "interactionListTasks",
+          "samples": [
+            "liste meine aufgaben auf",
+            "was muss ich noch machen",
+            "Welche Aufgaben habe ich auf meiner Liste"
+          ]
+        },
+        {
+          "slots": [
+            {
+              "name": "title",
+              "type": "AMAZON.SearchQuery"
+            },
+            {
+              "name": "details",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "{details}"
+              ]
+            },
+            {
+              "name": "deadline",
+              "type": "AMAZON.DATE",
+              "samples": [
+                "am {deadline}",
+                "bis zum {deadline}",
+                "bis {deadline}",
+                "{deadline}"
+              ]
+            }
+          ],
+          "name": "interactionCreateTask",
+          "samples": [
+            "erstelle eine Aufgabe für {deadline}",
+            "erstelle eine Aufgabe mit dem Titel {title}",
+            "ich habe noch eine Aufgabe",
+            "trage eine Aufgabe auf meine liste",
+            "Erstelle mir eine Aufgabe"
+          ]
+        },
+        {
+          "slots": [],
+          "name": "nextTaskIntent",
+          "samples": [
+            "zur nächsten aufgabe",
+            "weitere aufgabe",
+            "nächster Task",
+            "nächste Aufgabe"
+          ]
+        },
+        {
+          "slots": [],
+          "name": "readTaskIntent",
+          "samples": [
+            "mehr details",
+            "mehr details zur aufgabe",
+            "weitere infos zur aufgabe",
+            "mehr infos zur aufgabe",
+            "mehr infos"
+          ]
+        },
+        {
+          "slots": [
+            {
+              "name": "confirmation",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "name": "deleteTaskIntent",
+          "samples": [
+            "lösche Aufgabe",
+            "lösche die Aufgabe"
+          ]
+        },
+        {
+          "slots": [],
+          "name": "markTaskAsDoneIntent",
+          "samples": [
+            "markiere diese aufgabe als erledigt",
+            "als erledigt markieren"
+          ]
+        },
+        {
+          "slots": [],
+          "name": "markMailAsReaded",
+          "samples": [
+            "markiere Mail als gelesen",
+            "als gelesen markieren",
+            "markiere diese Mail als gelesen",
+            "Mail als gelesen markieren"
+          ]
+        },
+        {
+          "slots": [
+            {
+              "name": "confirmation",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "{confirmation}"
+              ]
+            }
+          ],
+          "name": "deleteMailIntent",
+          "samples": [
+            "lösche Mail",
+            "Mail löschen",
+            "diese Mail löschen",
+            "lösche diese Mail"
+          ]
+        },
+        {
+          "slots": [
+            {
+              "name": "topic",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "{topic}"
+              ]
+            },
+            {
+              "name": "time",
+              "type": "AMAZON.TIME",
+              "samples": [
+                "{time}"
+              ]
+            }
+          ],
+          "name": "remindMeIntent",
+          "samples": [
+            "erinnere mich in {time} an ",
+            "erinnere mich an {topic}"
+          ]
+        },
+        {
+          "slots": [],
+          "name": "summarizeDayIntent",
+          "samples": [
+            "Was steht heute an",
+            "Was muss ich heute beachten",
+            "Was ist heute wichtig",
+            "Fasse meinen Tag zusammen"
+          ]
+        },
+        {
+          "slots": [],
+          "name": "summarizeMail",
+          "samples": [
+            "zusammenfassung",
+            "fasse zusammen",
+            "fasse die mail zusammen"
+          ]
+        }
+      ],
+      "types": [],
+      "invocationName": "smart office"
+    },
+    "prompts": [
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Was ist der Betreff?"
+          },
+          {
+            "type": "PlainText",
+            "value": "Welchen Betreff willst du mitegeben?"
+          }
+        ],
+        "id": "Elicit.Slot.771337774033.1493307429845"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Wer soll deine Nachricht erhalten?"
+          },
+          {
+            "type": "PlainText",
+            "value": "Wem soll ich die Nachricht schicken?"
+          },
+          {
+            "type": "PlainText",
+            "value": "An wen soll die Mail gehen?"
+          }
+        ],
+        "id": "Elicit.Slot.771337774033.1640220812321"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Soll ich die Nachricht an {receiver} schicken?"
+          },
+          {
+            "type": "PlainText",
+            "value": "Ich schicke die Mail an {receiver} . Ist das korrekt?"
+          }
+        ],
+        "id": "Confirm.Slot.771337774033.1640220812321"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Welchen Text willst du senden?"
+          },
+          {
+            "type": "PlainText",
+            "value": "Was soll in deine Mail rein?"
+          }
+        ],
+        "id": "Elicit.Slot.771337774033.896757809049"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Wann soll der Termin sein?"
+          }
+        ],
+        "id": "Elicit.Slot.972876911610.511693001087"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "An welche Mailadresse soll ich den Termin schicken?"
+          }
+        ],
+        "id": "Elicit.Slot.972876911610.1067744603631"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Soll ich den Termin an {receiver} schicken?"
+          }
+        ],
+        "id": "Confirm.Slot.972876911610.1067744603631"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Was soll im Termin stehen?"
+          }
+        ],
+        "id": "Elicit.Slot.972876911610.248265849716"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Welchen Titel soll der Termin haben?"
+          }
+        ],
+        "id": "Elicit.Slot.972876911610.672489504043"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Um wieviel Uhr möchtest du starten?"
+          },
+          {
+            "type": "PlainText",
+            "value": "Wann soll der Termin beginnen?"
+          }
+        ],
+        "id": "Elicit.Slot.1512776701441.1138875601367"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Wann möchtest du starten?"
+          },
+          {
+            "type": "PlainText",
+            "value": "Wann soll der Termin beginnen?"
+          }
+        ],
+        "id": "Confirm.Slot.1512776701441.1138875601367"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Bis zur welchen Uhrzeit geht dein Termin?"
+          }
+        ],
+        "id": "Elicit.Slot.1512776701441.1530474893744"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "An welchem Datum soll der Termin sein?"
+          },
+          {
+            "type": "PlainText",
+            "value": "Wann soll dein Termin sein?"
+          }
+        ],
+        "id": "Elicit.Slot.1512776701441.739595359431"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Der Termin ist also am {date} ?"
+          }
+        ],
+        "id": "Confirm.Slot.1512776701441.739595359431"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Soll deine Mail an {receiver} gehen?"
+          }
+        ],
+        "id": "Confirm.Slot.440015274668.645012614447"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Soll dein Termin an {receiver} gehen?"
+          }
+        ],
+        "id": "Confirm.Slot.968478742672.1681137355715"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Um {startTime}"
+          }
+        ],
+        "id": "Confirm.Slot.968478742672.487876474654"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Ich kann nicht alle Mails auflisten. Bitte nenn mir eine Zahl vom eins bis zehn. So viele Mails liste ich dann auf."
+          }
+        ],
+        "id": "Elicit.Slot.191410672546.1510536478704"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Von wann soll ich deine Mails auflisten?"
+          }
+        ],
+        "id": "Elicit.Slot.548861568280.1003157791298"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Was möchtest du antworten?"
+          }
+        ],
+        "id": "Elicit.Slot.4350560751.1377540996935"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Soll ich folgendes antworten, {messageText} ?"
+          }
+        ],
+        "id": "Confirm.Slot.4350560751.1377540996935"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Über was willst du sprechen?"
+          }
+        ],
+        "id": "Elicit.Slot.580861061169.1547301043109"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Welche Stimmung soll deine Antwort haben?"
+          }
+        ],
+        "id": "Elicit.Slot.776589365825.1357274450054"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Welchen Kerngedanke soll deine Mail haben?"
+          }
+        ],
+        "id": "Elicit.Slot.776589365825.935591711183"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Wie soll der Titel der Aufgabe sein?"
+          }
+        ],
+        "id": "Elicit.Slot.1503945080474.246635934198"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "welche details hat die Aufgabe"
+          }
+        ],
+        "id": "Elicit.Slot.1503945080474.509738442796"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Bis wann willst du die Aufgabe erledigen?"
+          }
+        ],
+        "id": "Elicit.Slot.1503945080474.485931046442"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Bist du sicher?"
+          }
+        ],
+        "id": "Elicit.Slot.1580215121334.516194302988"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Wirklich löschen?"
+          },
+          {
+            "type": "PlainText",
+            "value": "Soll diese Maill wirklich gelöscht werden?"
+          }
+        ],
+        "id": "Elicit.Slot.1690298256225.1577635355121"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "An was soll ich dich erinnern?"
+          }
+        ],
+        "id": "Elicit.Slot.1446793209886.980097897911"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Zu welcher  Uhrzeit soll ich dich erinnern?"
+          },
+          {
+            "type": "PlainText",
+            "value": "Zu wann soll ich dich erinnern?"
+          }
+        ],
+        "id": "Elicit.Slot.1446793209886.1355052418848"
+      }
+    ]
+  }
+}
