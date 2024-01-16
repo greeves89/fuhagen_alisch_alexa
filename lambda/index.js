@@ -8,7 +8,7 @@ const AWS = require('aws-sdk');
 var userId = '';
 var refreshToken = '';
 
-process.env.OPENAI_API_KEY = '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';
+process.env.OPENAI_API_KEY = 'ENTER_YOUR_API_KEY_HERE';
 
 AWS.config.update({region: 'GER'}); // Ersetzen Sie REGION mit Ihrer Region
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
