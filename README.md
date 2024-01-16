@@ -2,6 +2,7 @@
 
  -------------------------------------------
 1. Einführung
+
 Das Skript index.js integriert verschiedene Dienste wie Google Gmail, Google Tasks, Google Calendar und OpenAI GPT-3 in einen Alexa Skill. Es ermöglicht die Verwaltung von E-Mails, Aufgaben und Terminen sowie die Interaktion mit GPT-3 über Alexa.
 
  1.2. Vorbereitung
