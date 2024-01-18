@@ -23,8 +23,11 @@
         - Coding Anpassung
    
 3. Verwendung des Skills
+   
     Hauptfunktionen des Skills
-       Start des Skills mittels "Alexa, starte [Skill Name]". Wichtig, die App kann nur mit dem gleichen Amazon Account verwendet werden, der auch den Skill erstellt hat. Es gibt jedoch die Möglichkeit einen Betatest zu starten um andere Nutzer zum Testen einzuladen.
+   
+       Start des Skills mittels "Alexa, starte [Skill Name]". Wichtig, die App kann nur mit dem gleichen Amazon Account verwendet werden, der auch den Skill erstellt hat.
+       Es gibt jedoch die Möglichkeit einen Betatest zu starten um andere Nutzer zum Testen einzuladen.
    
        Die folgenden Funktionalitäten wurden im Interaktionsmodell des Skills hinterlegt:
    
@@ -53,7 +56,7 @@
          - Zusammenfassung des Tages
          - Anleitung - "Hilfe"
 
-4. Fehlerbehebung
+5. Fehlerbehebung
    Bitte Fehler hier kommentieren.
 
 6. Kontakt
