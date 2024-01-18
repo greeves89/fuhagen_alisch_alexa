@@ -1,4 +1,4 @@
-﻿# Nutzerhandbuch Alexa_Skill Fernuni Hagen
+﻿# Installationsanleitung und Handbuch Alexa_Skill Fernuni Hagen
  -------------------------------------------
 1. Einführung
 
@@ -20,6 +20,7 @@
 
 4. Verwendung des Skills
     Hauptfunktionen des Skills
+       Start des Skills mittels "Alexa, starte [Skill Name]".
    
        Die folgenden Funktionalitäten wurden im Interaktionsmodell des Skills hinterlegt:
    
@@ -48,7 +49,7 @@
          - Zusammenfassung des Tages
          - Anleitung - "Hilfe"
 
-5. Fehlerbehebung
+6. Fehlerbehebung
 
-6. Kontakt
+7. Kontakt
   Bitte per Mail
