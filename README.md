@@ -11,16 +11,20 @@
        Damit der Skill genutzt werden kann, müssen die folgenden Schritte ausgeführt werden:
        - Erstellen Sie ein Google Developer Account -> https://console.cloud.google.com
        - Erstellen Sie einen OPENAI API Account -> https://platform.openai.com/api-keys
-       - Erstellen Sie einen Alexa Developer Account -> https://developer.amazon.com/
+       - [Optional, falls bereits ein Account besteht] Erstellen Sie einen Alexa Developer Account -> https://developer.amazon.com/
   
     Konfiguration
    
-       Setzen Sie den OpenAI API-Schlüssel und die AWS-Region.
-       Konfigurieren Sie den OAuth2-Client für Google-Dienste.
-
-4. Verwendung des Skills
+       - Einrichten der GOOGLE API, siehe Installationshandbuch.pdf
+       - Einrichten der OPEN AI API, siehe Installationshandbuch.pdf
+       - Erstellen des Alexa Skill, siehe Installationshandbuch.pdf
+        - Grundeinstellungen
+        - Account Linking
+        - Coding Anpassung
+   
+5. Verwendung des Skills
     Hauptfunktionen des Skills
-       Start des Skills mittels "Alexa, starte [Skill Name]".
+       Start des Skills mittels "Alexa, starte [Skill Name]". Wichtig, die App kann nur mit dem gleichen Amazon Account verwendet werden, der auch den Skill erstellt hat. Es gibt jedoch die Möglichkeit einen Betatest zu starten um andere Nutzer zum Testen einzuladen.
    
        Die folgenden Funktionalitäten wurden im Interaktionsmodell des Skills hinterlegt:
    
