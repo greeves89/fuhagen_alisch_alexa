@@ -8,28 +8,30 @@ const AWS = require('aws-sdk');
 var userId = '';
 var refreshToken = '';
 
-process.env.OPENAI_API_KEY = 'ENTER_YOUR_API_KEY_HERE';
+// OpenAI API KEY!
+process.env.OPENAI_API_KEY = 'HERE_YOUR_OPENAI_API_KEY;
 
-AWS.config.update({region: 'GER'}); // Ersetzen Sie REGION mit Ihrer Region
+AWS.config.update({region: 'GER'});
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 const apiKey = process.env.OPENAI_API_KEY;
 
 const openAI= new openai({
-  apiKey: process.env.OPENAI_API_KEY // This is also the default, can be omitted
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 const oauth2Client = new google.auth.OAuth2();
 
 oauth2Client.on('tokens', (tokens) => {
   if (tokens.refresh_token) {
-    // Speichern Sie das neue Refresh-Token in Ihrem sicheren Speicher
+    // Speicher des neue Refresh-Token
     console.log(`Neues Refresh-Token: ${tokens.refresh_token}`);
   }
   console.log(`Neues Zugriffstoken: ${tokens.access_token}`);
 });
 
 const LaunchRequestHandler = {
+    // Startpunkt des Skill wenn kein Handler druch einen gesprochenen Satz getriggert wird.
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
@@ -56,9 +58,6 @@ const LaunchRequestHandler = {
                 const newTokenResponse = await oauth2Client.refreshAccessToken();
                 accessToken = newTokenResponse.credentials.access_token;
                 console.log('Access-Token erneuert:', accessToken);
-
-                // Speichern des neuen Access-Tokens und des Refresh-Tokens (falls aktualisiert)
-                // ...
             } catch (error) {
                 console.error('Fehler beim Erneuern des Access-Tokens:', error);
                 return handlerInput.responseBuilder
@@ -66,17 +65,16 @@ const LaunchRequestHandler = {
                     .getResponse();
             }
         }
-
-        // Weiterer Code, wenn das Access Token vorhanden ist oder erfolgreich erneuert wurde
         const speakOutput = 'Willkommen bei smart office. Für eine kleine Auflistung einiger Befehle sage "Hilfe". Wie kann ich dir heute helfen?';
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            .reprompt('Falls doch Hilfe benötigst, sage Hilfe und ich nenne dir meine Funktionen.')
+            .reprompt('Falls du doch Hilfe benötigst, sage Hilfe und ich nenne dir meine Funktionen.')
             .getResponse();
     }
 };
 
 const SummarizeMailIntentHandler = {
+    //Funktion: Zusammenfassung einer Mail durch ChatGPT erstellen
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'summarizeMail';
@@ -143,7 +141,6 @@ const SummarizeMailIntentHandler = {
             speakOutput += "Diese E-Mail enthält Anhänge. ";
         }else{
             console.log(`Keine Anhänge vorhanden!`);
-            //speakOutput += "Diese E-Mail hat keine Anhänge. ";
         }
         
         var maxTokens = 500;
@@ -152,7 +149,7 @@ const SummarizeMailIntentHandler = {
         var gptResponse = "";
         var repromptText = "";
         
-        // Anfrage an die GPT-3 API senden
+        // Anfrage an GPT-3.5 API senden
         const response = await openAI.chat.completions.create({
           model: "gpt-3.5-turbo",
           messages: [
@@ -162,9 +159,7 @@ const SummarizeMailIntentHandler = {
           max_tokens: maxTokens,
         });
         
-        
-
-        // Extrahiere die Antwort von GPT
+        // Extrahieren der Antwort von GPT
         gptResponse = response.choices[0].message.content;
         console.log(`GPT response: ${gptResponse}`);
         
@@ -172,7 +167,7 @@ const SummarizeMailIntentHandler = {
         speakOutput+=gptResponse;
         speakOutput+=` Was möchtest du als nächstes machen? Sage "Vorlesen", "Antworten", "Zusammenfassen","Mail als gelesen markieren", SmartReply", "Nächste E-Mail" oder "Löschen", um mit der Mail zu interagieren.`;
         
-        repromptText = `Was möchtest du als nächstes machen? Sage "Vorlesen", "Antworten", "Zusammenfassen","Mail als gelesen markieren", SmartReply", "Nächste E-Mail" oder "Löschen", um mit der Mail zu interagieren.`;
+        repromptText = speakOutput;
         
         return handlerInput.responseBuilder
             .speak(`Hier deine Zusammenfassung der Mail: ${speakOutput}`)
@@ -185,6 +180,10 @@ const SummarizeMailIntentHandler = {
 
 
 const SummarizeDayIntentHandler = {
+    // ----------------------------------------------
+    // Funktion: Zusammenfassung des Tages erstellen
+    // Intent: summarizeDayIntent
+    // ----------------------------------------------
     canHandle(handlerInput) {
 
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
@@ -198,7 +197,7 @@ const SummarizeDayIntentHandler = {
         
         console.log("Speichere heutiges Datum in eine Variable.");
         var currentDay = new Date();
-        currentDay = currentDay.toISOString().split('T')[0]; // Erzeugt einen String im Format 'YYYY-MM-DD'
+        currentDay = currentDay.toISOString().split('T')[0];
         console.log(`currentDay: ${currentDay}`);
         
 //**************************************************
@@ -263,8 +262,8 @@ const SummarizeDayIntentHandler = {
 
         return handlerInput.responseBuilder
             .speak(`Hier ist deine Zusammenfassung des ${currentDay}: ${speakOutput}`)
-            .reprompt(repromptText) // Fügt einen Reprompt hinzu
-            .withShouldEndSession(false) // Hält die Sitzung offen
+            .reprompt(repromptText) 
+            .withShouldEndSession(false)
             .getResponse();
     }
 };
@@ -297,7 +296,6 @@ const AddTaskIntentHandler = {
 
         console.log(`Empfangene Werte: Titel - ${title}, Details - ${details}, Deadline - ${deadline}`);
 
-        // Hier rufen Sie die Funktion auf, um den Task in Google Kalender hinzuzufügen
         try {
             await addTaskToGoogleCalendar(title, details, deadline, handlerInput);
             console.log("Task erfolgreich zu Google Kalender hinzugefügt.");
@@ -305,8 +303,8 @@ const AddTaskIntentHandler = {
             
             return handlerInput.responseBuilder
                 .speak(`Die Aufgabe ${title} wurde hinzugefügt. Was möchtest du als nächstes tun?`)
-                .reprompt(repromptText) // Fügt einen Reprompt hinzu
-                .withShouldEndSession(false) // Hält die Sitzung offen
+                .reprompt(repromptText)
+                .withShouldEndSession(false)
                 .getResponse();
         } catch (error) {
             console.error("Fehler beim Hinzufügen des Tasks:", error);
@@ -320,7 +318,6 @@ const AddTaskIntentHandler = {
 async function addTaskToGoogleCalendar(title, details, deadline, handlerInput) {
     console.log("Starte Funktion addTaskToGoogleCalendar.");
 
-    // Konvertieren Sie das Datum/Deadline in das richtige Format
     const eventDateTime = new Date(deadline);
 
     const event = {
@@ -346,7 +343,7 @@ async function addTaskToGoogleCalendar(title, details, deadline, handlerInput) {
     const tasks = google.tasks({ version: 'v1', auth: oauth2Client });
     console.log("Tasks Google Verbindung herstellen.");
 
-    const taskListId = '@default'; // Die ID der Aufgabenliste, zu der die Aufgabe hinzugefügt wird, '@default' für die Hauptliste
+    const taskListId = '@default';
     const task = {
         title: title,
         notes: details,
@@ -384,7 +381,6 @@ const ListTasksIntentHandler = {
             
             
             const currentTask =  tasks[currentIndex];
-            //const incompleteTasks = tasks.filter(task => task.status === 'completed');
             
             let responseMessage;
             sessionAttributes.currentIndex = currentIndex;
@@ -407,8 +403,8 @@ const ListTasksIntentHandler = {
             
             return handlerInput.responseBuilder
                 .speak(responseMessage)
-                .reprompt(repromptText) // Fügt einen Reprompt hinzu
-                .withShouldEndSession(false) // Hält die Sitzung offen
+                .reprompt(repromptText) 
+                .withShouldEndSession(false) 
                 .getResponse();
         } catch (error) {
             console.error("Fehler beim Abrufen der Aufgaben:", error);
@@ -416,8 +412,8 @@ const ListTasksIntentHandler = {
             
             return handlerInput.responseBuilder
                 .speak('Entschuldigung, ich konnte deine Aufgaben nicht abrufen. Bitte versuche es später noch einmal.')
-                .reprompt(repromptText) // Fügt einen Reprompt hinzu
-                .withShouldEndSession(false) // Hält die Sitzung offen
+                .reprompt(repromptText) 
+                .withShouldEndSession(false)
                 .getResponse();
         }
     }
@@ -443,7 +439,7 @@ async function getTasksList(handlerInput, dateStamp) {
     try {
         
         const response = await tasksService.tasks.list({
-            tasklist: '@default' // Die ID der Aufgabenliste
+            tasklist: '@default'
         });
         
         // Filtern der Aufgaben nach dem Datum, falls dateStamp gesetzt ist
@@ -509,7 +505,7 @@ const ReadTaskIntentHandler = {
         responseMessage = responseMessage+"die Notizen: "+currentTask.notes+".\n";
         responseMessage = responseMessage+"zu erledigen bis: "+formattedDate+".\n";
         
-        responseMessage = responseMessage+'Sage "nächste Aufgabe", "lösche Aufgabe" oder "als erledigt markieren" um mit der Aufgabe zu interagieren.\n';
+        responseMessage = responseMessage+'Sage "mehr Infos", nächste Aufgabe" oder "lösche Aufgabe" um mit der Aufgabe zu interagieren.\n';
         
     
         const repromptText ="Was möchtest du als nächstes tun?";
@@ -553,8 +549,8 @@ const MarkTaskAsDoneIntentHandler = {
                 var responseMessage = "Test";   
                 const tasksService = google.tasks({ version: 'v1', auth: oauth2Client });
                 await tasksService.tasks.update({
-                    tasklist: '@default', // Die ID der Aufgabenliste
-                    task: `"${currentTask.selfLink}"`, // Die ID der Aufgabe
+                    tasklist: '@default', 
+                    task: `"${currentTask.selfLink}"`, 
                     resource: {
                         status: 'completed'
                     }
@@ -572,8 +568,8 @@ const MarkTaskAsDoneIntentHandler = {
         
         return handlerInput.responseBuilder
             .speak(responseMessage)
-            .reprompt(repromptText) // Fügt einen Reprompt hinzu
-            .withShouldEndSession(false) // Hält die Sitzung offen
+            .reprompt(repromptText) 
+            .withShouldEndSession(false) 
             .getResponse();
     }
 };
@@ -654,8 +650,6 @@ const NextTaskIntentHandler = {
         const currentTask =  tasks[currentIndex];
         console.log("NextTaskIntentHandler - Lese den aktuellen Tasks mit neuem Index aus.");
         
-        //const incompleteTasks = tasks.filter(task => task.status === 'completed');
-        
         var responseMessage;
         if (tasks.length > 0) {
             responseMessage = `Die nächste offene Aufgabe hat den Titel: ${currentTask.title}. Sage "Mehr Infos" um weitere Infos zu erhalten. Sage "nächste Aufgabe" um die nächste Aufgabe zu hören.`;
@@ -703,13 +697,10 @@ const handleConversationWithGPT = {
             
             const { responseBuilder, attributesManager } = handlerInput;
 
-            // Holen Sie die bisherige Konversation aus den Session-Attributen
             let conversation = sessionAttributes.conversation || '';
 
-            // Fügen Sie die Benutzereingabe zum Konversationsverlauf hinzu
             conversation += userMessage + '. \n\n ';
             if (userMessage.includes('Ende') || userMessage.includes('Tschüss')) {
-                // Das Gespräch wurde beendet
                 sessionAttributes.conversationStarted = false;
                 
                 return responseBuilder
@@ -785,7 +776,7 @@ const ChatGPTRequestInterceptor = {
         console.log(`userMessage: ${userMessage}`);
         
         if(conversationStarted === true){
-            // Versuchen Sie, den AMAZON.SearchQuery-Slot abzurufen
+            
             console.log("conversationStarted = true. passen die userMessage an.");
             try {
                 const userMessage = Alexa.getSlotValue(handlerInput.requestEnvelope, 'userMessage');
@@ -794,8 +785,6 @@ const ChatGPTRequestInterceptor = {
                 let newUserMessage = `chat ${userMessage}`;
                 console.log(`newUserMessage aus: ${newUserMessage}`);
                 
-                //sessionAttributes.newUserMessage = newUserMessage
-                //handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
                 handlerInput.requestEnvelope.request.intent.slots.userMessage.value = `Chat ${newUserMessage}`;
                 
                 console.log("UserMessage wurde angepasst!");
@@ -887,8 +876,8 @@ const handleListMails = { //intent: interactionListMails
 
 function listEmails(gmail, amountMails, dayStampMails) {
     return new Promise((resolve, reject) => {
-        // Stellen Sie die Suchanfrage zusammen basierend auf den Nutzerkriterien
-        let query = 'is:unread'; // Beginn mit der Suche nach allen ungelesenen E-Mails
+
+        let query = 'is:unread'; 
         console.log(`Basis-Suchquery: ${query}`);
         var date = "";
         
@@ -928,13 +917,12 @@ function listEmails(gmail, amountMails, dayStampMails) {
                 const messages = res.data.messages || [];
                 console.log(`Gefundene Nachrichten: ${messages.length}`);
 
-                // Erzeuge Promises, um die Details für jede Nachricht zu holen
+                // Details für jede Nachricht einholen
                 console.log('Hole Details für jede Nachricht...');
                 const emailDetailsPromises = messages.map(message => {
                     return getEmailDetails(gmail, message.id);
                 });
 
-                // Warte darauf, dass alle Promises aufgelöst werden
                 Promise.all(emailDetailsPromises)
                     .then(emailsDetails => {
                         console.log('E-Mail-Details erfolgreich abgerufen');
@@ -980,7 +968,7 @@ const ReadEmailIntentHandler = {
         console.log(`Aktuelle E-Mail: ${JSON.stringify(currentEmail)}`);
         var speakOutput = "";
         
-        // Überprüfen, ob der E-Mail-Text länger als 7500 Zeichen ist
+        // Überprüfen, ob der E-Mail-Text länger als 7500 Zeichen ist, sonst wird die Ausgabe von Alexa abgebrochen
         let emailBody = currentEmail.body;
         
         console.log("Kürze die Mail um Sonderzeichen");
@@ -1016,11 +1004,9 @@ const ReadEmailIntentHandler = {
 
         markEmailAsRead(handlerInput, currentEmail.id).then(() => {
             console.log('Email marked as read successfully');
-            // Fahren Sie mit dem Rest Ihres Codes fort...
           })
           .catch((error) => {
             console.error('Error marking email as read', error);
-            // Behandeln Sie den Fehler oder informieren Sie den Benutzer...
           });
 
         sessionAttributes.currentIndex = currentIndex + 1;
@@ -1046,7 +1032,6 @@ async function markEmailAsRead(handlerInput, emailId) {
             .getResponse();
     }
 
-    // Initialisiere den OAuth2-Client mit dem erhaltenen AccessToken.
     const oauth2Client = new google.auth.OAuth2();
     oauth2Client.setCredentials({
         access_token: accessToken,
@@ -1061,7 +1046,7 @@ async function markEmailAsRead(handlerInput, emailId) {
             userId: 'me',
             id: emailId,
             resource: {
-                removeLabelIds: ['UNREAD'] // Entfernt das Label "Ungelesen"
+                removeLabelIds: ['UNREAD']
             }
         });
         console.log(`Email marked as read: EmailID = ${emailId}`);
@@ -1093,7 +1078,6 @@ const NextEmailIntentHandler = {
         currentIndex = currentIndex + 1;
         console.log(`currentIndex: ${currentIndex} `);
         
-        // Überprüfen Sie, ob es noch weitere E-Mails gibt
         if (currentIndex >= emails.length) {
             const speakOutput = 'Es gibt keine weiteren E-Mails. Möchtest du etwas anderes tun?';
             return handlerInput.responseBuilder
@@ -1107,8 +1091,6 @@ const NextEmailIntentHandler = {
         const speakOutput = `Nächste E-Mail ist von ${nextEmail.from} mit dem Betreff ${nextEmail.subject}. 
                              Sage "Vorlesen" um die gesamte Nachricht zu hören, "Nächste" um zur nächsten E-Mail zu gehen, 
                              "Antworten" um zu antworten, oder "Löschen" um diese E-Mail zu löschen.`;
-
-        // Aktualisieren Sie den Index für die nächste E-Mail
         
         sessionAttributes.currentIndex = currentIndex;
         handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
@@ -1125,7 +1107,7 @@ const DeleteEmailIntentHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'deleteMailIntent';
     },
-    handle: async function(handlerInput) { // Ändern Sie diese Zeile, um die Funktion asynchron zu machen
+    handle: async function(handlerInput) {
         var speakOutput = "";
         const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
         const emails = sessionAttributes.emails || [];
@@ -1146,14 +1128,13 @@ const DeleteEmailIntentHandler = {
                 const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
                 await gmail.users.messages.trash({
                     userId: 'me',
-                    id: currentEmail.id // Stellen Sie sicher, dass jede E-Mail eine ID hat
+                    id: currentEmail.id 
                 });
 
                 speakOutput = "Die E-Mail wurde gelöscht.";
                 console.log(`E-Mail mit ID ${currentEmail.id} gelöscht.`);
-
-                // Aktualisieren Sie die E-Mail-Liste und den Index
-                emails.splice(currentIndex, 1); // Entfernt die gelöschte E-Mail aus dem Array
+                
+                emails.splice(currentIndex, 1); 
                 sessionAttributes.currentIndex = currentIndex < emails.length ? currentIndex : 0;
             } catch (error) {
                 console.error("Fehler beim Löschen der E-Mail:", error);
@@ -1209,7 +1190,7 @@ const remindMeIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'remindMeIntent';
     },
     handle: async function(handlerInput) {
-        // Erstellen Sie den Skill-Builder und fügen Sie die benötigten Konfigurationen hinzu
+       
         const skillBuilder = Alexa.SkillBuilders.custom();
 
         const topic = Alexa.getSlotValue(handlerInput.requestEnvelope, 'topic');
@@ -1276,7 +1257,6 @@ const replyWithGPTIntentHandler = {
         const currentIndex = sessionAttributes.currentIndex ? sessionAttributes.currentIndex - 1 : 0;
         console.log(`currentIndex: ${currentIndex}`);
     
-        // Überprüfen, ob der Benutzer bei einer gültigen E-Mail-Position ist, um zu antworten
         if (!emails.length || currentIndex < 0 || currentIndex >= emails.length) {
             console.log("Ungültige Position oder keine E-Mails zum Antworten vorhanden.");
             return handlerInput.responseBuilder
@@ -1286,10 +1266,10 @@ const replyWithGPTIntentHandler = {
         }
         
         const currentEmail = emails[currentIndex];
-        const receiverEmail = currentEmail.senderMail; // Verwenden Sie die zuvor gespeicherte E-Mail-Adresse des Senders
+        const receiverEmail = currentEmail.senderMail; 
         console.log(`receiverEmail: ${receiverEmail}`);
         
-        const subject = `Re: ${currentEmail.subject}`; // Fügen Sie "Re:" zum Betreff der aktuellen E-Mail hinzu
+        const subject = `Re: ${currentEmail.subject}`; // Füge "Re:" zum Betreff der aktuellen E-Mail hinzu
         console.log(`subject: ${subject}`);
         
         var mailContent = currentEmail.body;
@@ -1301,7 +1281,6 @@ const replyWithGPTIntentHandler = {
         var coreResponse = handlerInput.requestEnvelope.request.intent.slots.coreResponse.value;
         console.log(`coreResponse: ${coreResponse}`);
         
-        //TODO: hier muss die GPT Anfrage rein
         const responseGPT = "";
         
         // Anfrage an die GPT-3 API senden
@@ -1317,7 +1296,8 @@ const replyWithGPTIntentHandler = {
         let gptResponse = response.choices[0].message.content;
         console.log(`GPT response: ${gptResponse}`);
         
-        gptResponse = gptResponse + "\n Wurde mit ChatGPT geschrieben...\n";
+        //Ggf rausnehmen!
+        gptResponse = gptResponse + "\n Diese E-Mail wurde mit ChatGPT geschrieben...\n";
         gptResponse = gptResponse + "\n----------------------------------------\n\n";
         gptResponse = gptResponse + mailContent;
 
@@ -1371,13 +1351,12 @@ const ReplyEmailIntentHandler = {
         }
 
         const currentEmail = emails[currentIndex];
-        const receiverEmail = currentEmail.senderMail; // Verwenden Sie die zuvor gespeicherte E-Mail-Adresse des Senders
+        const receiverEmail = currentEmail.senderMail; 
         console.log(`receiverEmail: ${receiverEmail}`);
         
-        const subject = `Re: ${currentEmail.subject}`; // Fügen Sie "Re:" zum Betreff der aktuellen E-Mail hinzu
+        const subject = `Re: ${currentEmail.subject}`; // Füge "Re:" zum Betreff der aktuellen E-Mail hinzu
         console.log(`subject: ${subject}`);
         
-        //const content = 'Hier ist der Text, der als Antwort gesendet werden soll.'; // Hier soll der Inhalt der Antwort stehen
         const content = handlerInput.requestEnvelope.request.intent.slots.messageText.value;
         console.log(`content: ${content}`);
     
@@ -1406,7 +1385,7 @@ function getEmailDetails(gmail, messageId) {
         gmail.users.messages.get({
             userId: 'me',
             id: messageId,
-            format: 'full' // Hier ändern Sie 'metadata' zu 'full', wenn Sie den gesamten E-Mail-Body benötigen
+            format: 'full' // 'full' = gesamter E-Mail-Body wir wiedergegeben
         }, (err, res) => {
             if (err) {
                 console.log('Fehler beim Abrufen der E-Mail-Details:', err);
@@ -1437,11 +1416,8 @@ function getEmailDetails(gmail, messageId) {
                     }
                 }
                 
-                
-                // Dekodieren Sie den Base64-String in lesbares Format
                 let decodedBody = Buffer.from(body, 'base64').toString('utf-8');
 
-                // Ersetzen Sie Sonderzeichen und bereinigen Sie den Text
                 console.log("Kürze die Mail um Sonderzeichen");
                 decodedBody = decodedBody.replace(/&auml;/g, "ä")
                    .replace(/&ouml;/g, "ö")
@@ -1465,7 +1441,6 @@ function getEmailDetails(gmail, messageId) {
                 decodedBody = decodedBody.replace(']', '');
                 console.log("] ersetzt");
 
-                // Kürzen Sie den Body auf 2000 Zeichen, falls notwendig
                 if (decodedBody.length > 2000) {
                     decodedBody = decodedBody.substring(0, 2000);
                 }
@@ -1490,7 +1465,6 @@ function getEmailDetails(gmail, messageId) {
 
 
 function formatDateToGmailQuery(date) {
-    // Formatieren Sie das Datum in das von Gmail erwartete Query-Format 'yyyy/mm/dd'
     const formattedDate = date.toISOString().substring(0, 10).replace(/-/g, '/');
     console.log(`Formatiertes Datum für die Gmail-Suche: ${formattedDate}`);
     return formattedDate;
@@ -1508,9 +1482,7 @@ function sendEmail(receiver, subject, content, handlerInput) {
         access_token: accessToken,
     });
     console.log('OAuth2-Client wurde mit dem AccessToken initialisiert.');
-        
-    //oauth2Client.refreshAccessToken().then(tokens => {
-    //    console.log('Zugriffstoken aktualisiert: ', tokens);
+
     
         const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
         console.log('Erstelle die Rohdaten der Nachricht für die E-Mail.');
@@ -1542,9 +1514,6 @@ function sendEmail(receiver, subject, content, handlerInput) {
             console.log('Nachricht gesendet: ', result.data);
           }
         });
-  //}).catch(error => {
-    //    console.error('Fehler beim Aktualisieren des Zugriffstokens: ', error);
-  //});
 }
 
 const HelpIntentHandler = {
@@ -1558,8 +1527,8 @@ const HelpIntentHandler = {
         
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            .reprompt(repromptText) // Fügt einen Reprompt hinzu
-            .withShouldEndSession(false) // Hält die Sitzung offen
+            .reprompt(repromptText) 
+            .withShouldEndSession(false)
             .getResponse();
     }
 };
@@ -1582,7 +1551,6 @@ const CancelAndStopIntentHandler = {
 
 const SkillHandler = {
     canHandle(handlerInput) {
-    // Definieren Sie hier die Logik, um zu bestimmen, ob Ihr Handler die Anforderung bearbeiten kann.
     return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest';
   },
   handle(handlerInput) {
@@ -1593,16 +1561,14 @@ const SkillHandler = {
     const accessToken = handlerInput.requestEnvelope.context.System.user.accessToken;
     
     if (!accessToken) {
-      // Der Benutzer hat den Skill noch nicht verknüpft, senden Sie eine Verknüpfungsanfrage.
+      // Der Benutzer hat den Skill noch nicht verknüpft, sende eine Verknüpfungsanfrage.
       return handlerInput.responseBuilder
         .speak('Bitte verknüpfen Sie zuerst Ihr Konto mit dem Skill, über die Alexa-App.')
-        .withLinkAccountCard() // Diese Zeile sendet eine Kartenanfrage an die Alexa-App, um den Account Linking Prozess zu starten.
+        .withLinkAccountCard()
         .getResponse();
     }
-    // Sende eine Antwort zurück zum Benutzer
     return handlerInput.responseBuilder
       .speak('Hier ist Ihre Antwort nach der erfolgreichen Kontoverknüpfung.')
-      // . Weitere Response-Konfiguration
       .getResponse();
   },
 };
@@ -1614,39 +1580,14 @@ const SkillHandler = {
  * */
  
 const FallbackIntentHandler = {
+    // sollte keine Handler reagieren wird der FallbackIntentHandler getriggert
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.FallbackIntent';
     },
     handle(handlerInput) {
-        let speakOutput = 'Test';
-        const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
-        const conversationStarted = sessionAttributes.conversationStarted;
 
-        // Versuchen Sie, den AMAZON.SearchQuery-Slot abzurufen
-        const userQuery = Alexa.getSlotValue(handlerInput.requestEnvelope, 'query');
-        const userMessage = Alexa.getSlotValue(handlerInput.requestEnvelope, 'userMessage');
-
-        console.log(`FallbackIntentHandler - conversationStarted: ${conversationStarted}`);
-        console.log(`FallbackIntentHandler - userMessage: ${userMessage}`);
-        console.log(`FallbackIntentHandler - userQuery: ${userQuery}`);
-
-
-        if (conversationStarted === true) {
-            /*/ Die Konversation läuft bereits, rufe den interactionFlowGPT-Intent auf
-            return handlerInput.responseBuilder
-                .addDelegateDirective({
-                    name: 'interactionFlowGPT',
-                    confirmationStatus: 'NONE',
-                    slots: {
-                        userQuery: userQuery,
-                        userMessage: userMessage // der vom Benutzer gesprochenen Text wird an den Intent weitergegeben
-                    }
-                })
-                .getResponse();*/
-        } else {
-            speakOutput = 'Hierbei kann ich dir leider nicht helfen. Bitte wiederhole deine Aussage mit anderen Worten und vergewissere dich, dass ich diese Funktion anbiete.';
-        }
+        let speakOutput = 'Hierbei kann ich dir leider nicht helfen. Bitte wiederhole deine Aussage mit anderen Worten und vergewissere dich, dass ich diese Funktion anbiete.';
 
         console.log(`FallbackIntentHandler - speakOutput: ${speakOutput}`);
 
@@ -1656,12 +1597,6 @@ const FallbackIntentHandler = {
             .getResponse();
     }
 };
-
-/* *
- * SessionEndedRequest notifies that a session was ended. This handler will be triggered when a currently open 
- * session is closed for one of the following reasons: 1) The user says "exit" or "quit". 2) The user does not 
- * respond or says something that does not match an intent defined in your voice model. 3) An error occurs 
- * */
 
 const SessionEndedRequestHandler = {
     canHandle(handlerInput) {
@@ -1674,9 +1609,8 @@ const SessionEndedRequestHandler = {
     }
 };
 
-//interactionListNextEvent
-
 const handleListNextEvent = {
+    //Handler um das nächste Event auszulesen
     canHandle(handlerInput) {       
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'interactionListNextEvent';
@@ -1722,33 +1656,25 @@ const handleListEvents = { //Intentname = interactionListEvents
         const accessToken = handlerInput.requestEnvelope.context.System.user.accessToken;
         console.log(`OAuth Client und Token wurden ausgelesen: ${accessToken}`);
     
-        // Holen Sie sich den Wert aus dem Slot 'dayStamp', der das Datum darstellt, für das Ereignisse gesucht werden sollen.
         let dayStamp = handlerInput.requestEnvelope.request.intent.slots.dayStamp.value;
-        let timeMin; // Dies wird die minimale Zeit darstellen, ab der Ereignisse gesucht werden sollen.
+        let timeMin;
       
         if (!dayStamp || dayStamp === 'today') {
-            // Setzen Sie das Datum auf heute um 0 Uhr in der Zeitzone 'Europe/Berlin'.
+            
             timeMin = moment().tz('Europe/Berlin').startOf('day').toISOString();
         } else {
-            // Wenn 'dayStamp' ein spezifisches Datum ist, sollten Sie es entsprechend verarbeiten.
-            // Hier verwenden Sie 'dayStamp' und konvertieren es in das ISO-Format.
-            // Stellen Sie sicher, dass 'dayStamp' im richtigen Format ist oder fügen Sie zusätzliche Validierung/Formatierung hinzu.
             timeMin = moment.tz(dayStamp, "Europe/Berlin").startOf('day').toISOString();
         }
         
         console.log(`Suche Ereignisse ab: ${timeMin}`);
         
-        // Hier fügen wir `return` hinzu, um sicherzustellen, dass der Skill die Promise-Kette zurückgibt.
         return listNextEvents(accessToken, 10, timeMin)
           .then(events => {
-            // Logge die Anzahl der Events
             console.log(`Gebe die Events aus. Länge der EventListe: ${events.length}`);
         
-            // Prüfen, ob Ereignisse vorhanden sind
             let speakOutput = '';
             if (events.length > 0) {
               speakOutput = `Du hast ${events.length} bevorstehende Termine. Hier sind sie: `;
-              // Hinzufügen von Details der ersten drei Ereignisse zum Sprachausgang
               events.slice(0, 6).forEach((event, index) => {
                 const eventStart = event.start.dateTime || event.start.date; // Ganztägige Ereignisse haben nur ein Datum
                 const day = new Date(eventStart).toLocaleDateString("de-DE");
@@ -1785,7 +1711,7 @@ function listNextEvents(_accessToken, _amount, _date) {
   
   return new Promise((resolve, reject) => {
     oauth2Client.setCredentials({
-      access_token: _accessToken, // Der Zugangstoken, der im Account Linking Flow erworben wurde
+      access_token: _accessToken,
     });
 
     const calendar = google.calendar({version: 'v3', auth: oauth2Client});
@@ -1793,8 +1719,8 @@ function listNextEvents(_accessToken, _amount, _date) {
     
     calendar.events.list({
         calendarId: 'primary',
-        timeMin: timeMin, // Verwenden Sie hier die konvertierte Zeit
-        maxResults: parseInt(_amount, 10), // Stellen Sie sicher, dass dies eine Zahl ist
+        timeMin: timeMin,
+        maxResults: parseInt(_amount, 10),
         singleEvents: true,
         orderBy: 'startTime',
     }, (err, res) => {
@@ -1825,7 +1751,6 @@ function parseReceiver(receiver) {
 
     return receiverWithEmail;
 }
-    
     
 const handleCreateEvent = {
     canHandle(handlerInput) {
@@ -1876,7 +1801,7 @@ const handleCreateEvent = {
               'timeZone': 'Europe/Berlin',
             },
             'attendees': [
-              { 'email': parsedReceiver } // Füge den Empfänger hinzu
+              { 'email': parsedReceiver }
             ],
     
           };
@@ -1986,9 +1911,9 @@ exports.handler = Alexa.SkillBuilders.custom()
         ErrorHandler
     )
     .addRequestInterceptors(
-        //ChatGPTRequestInterceptor
+        //ChatGPTRequestInterceptor  // können genutzt werden um Anfragen abzufangen und anzupassen
         //ConversationCheckInterceptor
     )
-    .withApiClient(new Alexa.DefaultApiClient()) // Hier fügen Sie den API-Client hinzu
+    .withApiClient(new Alexa.DefaultApiClient())
     .withCustomUserAgent('sample/hello-world/v1.2')
     .lambda();
