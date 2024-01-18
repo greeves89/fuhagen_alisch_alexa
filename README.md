@@ -4,7 +4,7 @@
 
     Der Alexa Skill integriert verschiedene Dienste wie Google Gmail, Google Tasks, Google Calendar und OpenAI GPT zu einer Sammlung von Funktionen. Er ermöglicht die Verwaltung von E-Mails, Aufgaben und Terminen sowie die Interaktion mit GPT-3 über Alexa.
  
-3. Erste Schritte
+2. Erste Schritte
 
     Vorbereitung
 
@@ -22,7 +22,7 @@
         - Account Linking
         - Coding Anpassung
    
-5. Verwendung des Skills
+3. Verwendung des Skills
     Hauptfunktionen des Skills
        Start des Skills mittels "Alexa, starte [Skill Name]". Wichtig, die App kann nur mit dem gleichen Amazon Account verwendet werden, der auch den Skill erstellt hat. Es gibt jedoch die Möglichkeit einen Betatest zu starten um andere Nutzer zum Testen einzuladen.
    
@@ -53,7 +53,8 @@
          - Zusammenfassung des Tages
          - Anleitung - "Hilfe"
 
-6. Fehlerbehebung
+4. Fehlerbehebung
+   Bitte Fehler hier kommentieren.
 
-7. Kontakt
-  Bitte per Mail
+6. Kontakt
+  Bitte hier in GItHub kontaktieren.
